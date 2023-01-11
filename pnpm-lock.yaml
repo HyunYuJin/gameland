@@ -52,6 +52,27 @@ importers:
       typescript: 4.9.4
       vite: 4.0.4
 
+  mbit:
+    specifiers:
+      '@gameland/shared': workspace:*
+      '@types/react': ^18.0.26
+      '@types/react-dom': ^18.0.9
+      '@vitejs/plugin-react': ^3.0.0
+      react: ^18.2.0
+      react-dom: ^18.2.0
+      typescript: ^4.9.3
+      vite: ^4.0.0
+    dependencies:
+      '@gameland/shared': link:../shared
+      react: 18.2.0
+      react-dom: 18.2.0_react@18.2.0
+    devDependencies:
+      '@types/react': 18.0.26
+      '@types/react-dom': 18.0.10
+      '@vitejs/plugin-react': 3.0.1_vite@4.0.4
+      typescript: 4.9.4
+      vite: 4.0.4
+
   shared:
     specifiers: {}
 

@@ -1,5 +1,4 @@
 # pnpm이 추적할 프로젝트 목록
 packages: 
-  - "admin"
-  - "client"
+  - "mbit"
   - "shared"
