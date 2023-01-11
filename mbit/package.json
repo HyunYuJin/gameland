@@ -9,9 +9,13 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@gameland/shared": "workspace:*",
+    "axios": "^1.2.2",
+    "node-sass": "^8.0.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "@gameland/shared": "workspace:*"
+    "react-router-dom": "^6.6.2",
+    "sass": "^1.57.1"
   },
   "devDependencies": {
     "@types/react": "^18.0.26",
