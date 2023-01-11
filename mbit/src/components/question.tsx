@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
-import { QuestionType, AnswerType } from '../types/type'
+import { QuestionType, AnswerType } from '../types'
 import data from '../datas/data.json'
 
 function Question () {
