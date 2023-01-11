@@ -5,36 +5,22 @@ import data from '../datas/data.json'
 
 function Question () {
   let { questionId } = useParams()
-  // let configure = useRef<AnswerType[]>([])
+  const { questions, answers } = data
+  const mbitList: QuestionType[] = []
 
   const getData = () => {
-    const { questions, answers } = data
-
     questions.forEach((question) => {
-      const configure: any = []
+      const answerArray:AnswerType[] = []
       answers.forEach((answer) => {
         if (question.pk === answer.question) {
-          configure.push(answer)
+          answerArray.push(answer)
         }
       })
-      initQuestion(question, configure)
+      mbitList.push(Object.assign(question, {
+        answers: answerArray
+      }))
     })
-
   }
-
-  const initQuestion = (question: QuestionType, configure: AnswerType) => {
-    const questionItem = document.createElement('div')
-
-    questionItem.innerHTML = `
-      <div class="status-box">
-        <span> ${question.pk}/10 </span>
-        <div class="status-bar"></div>
-      </div>
-    `
-
-    document.querySelector('#question')?.appendChild(questionItem)
-  }
-
 
   useEffect(() => {
     getData()
@@ -42,9 +28,11 @@ function Question () {
 
   return (
     <div className="question" id="question">
-      <>
-        
-      </>
+      <div className="question-form" data-index={questionId}>
+        {
+          mbitList.map(mbit => (<h3>Q{mbit.pk}. {mbit.content}</h3>))
+        }
+      </div>
     </div>
   )
 }
