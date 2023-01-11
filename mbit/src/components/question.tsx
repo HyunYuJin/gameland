@@ -12,7 +12,7 @@ function Question () {
     const mbitList: QuestionType[] = []
 
     questions.forEach((question) => {
-      const answerArray:AnswerType[] = []
+      const answerArray: AnswerType[] = []
 
       answers.forEach((answer) => {
         if (question.pk === answer.question) {

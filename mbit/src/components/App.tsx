@@ -1,9 +1,9 @@
 import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import Intro from './components/intro'
-import Question from './components/question'
-import Result from './components/result'
+import Intro from './Intro'
+import Question from './Question'
+import Result from './Result'
 
-function App() {
+const App = () => {
   return (
     <div className="App">
       <BrowserRouter>
