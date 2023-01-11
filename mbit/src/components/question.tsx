@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { QuestionType, AnswerType } from '../types/type'
 import data from '../datas/data.json'
@@ -6,11 +6,14 @@ import data from '../datas/data.json'
 function Question () {
   let { questionId } = useParams()
   const { questions, answers } = data
-  const mbitList: QuestionType[] = []
-
+  const [mbits, setMbits] = useState<QuestionType[]>([])
+  
   const getData = () => {
+    const mbitList: QuestionType[] = []
+
     questions.forEach((question) => {
       const answerArray:AnswerType[] = []
+
       answers.forEach((answer) => {
         if (question.pk === answer.question) {
           answerArray.push(answer)
@@ -19,6 +22,8 @@ function Question () {
       mbitList.push(Object.assign(question, {
         answers: answerArray
       }))
+
+      setMbits(mbitList)
     })
   }
 
@@ -29,9 +34,9 @@ function Question () {
   return (
     <div className="question" id="question">
       <div className="question-form" data-index={questionId}>
-        {
-          mbitList.map(mbit => (<h3>Q{mbit.pk}. {mbit.content}</h3>))
-        }
+        {mbits && mbits.map(mbit => (
+          <h3 key={mbit.pk}>Q{mbit.pk}. {mbit.content}</h3>
+        ))}
       </div>
     </div>
   )
