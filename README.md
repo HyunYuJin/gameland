@@ -2,7 +2,7 @@
 
 ## Configuring Apps
 ```
-$ pnpm create vite admin --template react-ts
+$ pnpm create vite 프로젝트명 --template react-ts
 ```
 
 ## Settings package.json
