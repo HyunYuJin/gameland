@@ -18,3 +18,9 @@ $ pnpm create vite 프로젝트명 --template react-ts
   }
 }
 ```
+
+## 설치
+pnpm-workspace.yaml 파일에 등록된 모든 App들은 추적되고 있으므로 다음 명령어로 모든 App의 패키지를 한방에 설치할 수 있다.
+```
+$ pnpm install
+```
