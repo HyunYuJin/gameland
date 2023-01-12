@@ -1,6 +1,7 @@
 export interface QuestionType {
   pk: number,
   content: string
+  answers: AnswerType[]
 }
 
 export interface AnswerType {
