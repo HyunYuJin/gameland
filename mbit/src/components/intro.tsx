@@ -11,14 +11,14 @@ function Intro () {
 
       <Image src={mbit} alt="mbit" />
       
-      <Button to="/questions/1" className="start">시작하기</Button>
+      <Button to="/questions" className="start">시작하기</Button>
     </Wrapper>
   )
 }
 
 const Wrapper = styled.div`
-  max-width: 800px;
-  min-width: 360px;
+  max-width: 300px;
+  min-width: 280px;
   margin: 0 auto;
   padding: 45px;
   display: flex;
