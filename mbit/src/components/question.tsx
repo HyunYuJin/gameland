@@ -59,37 +59,37 @@ function Question () {
   }, [])
 
   return (
-    <Wrapper ref={form}>
+    <Form ref={form} onSubmit={(event) => event?.preventDefault()} action="" id="question-form" method="post">
       {mbits && mbits.map(mbit => (
-        <Form key={mbit.pk} className={classes({current: mbit.pk === params})} data-index={mbit.pk}>
+        <Wrapper key={mbit.pk} className={classes({current: mbit.pk === params})} data-index={mbit.pk}>
           <Pk>Q{mbit.pk}. {mbit.content}</Pk>
           <Answers>
             {mbit.answers && mbit.answers.map((answer, index) => (
               <Answer key={answer.content}>
-                <input type="radio" id={`answer-${answer.pk}`} name={mbit.content} value={answer.content} onChange={($event) => onChange($event, answer.pk)} />
+                <input type="radio" id={`answer-${answer.pk}`} name={`question-${mbit.content}`} value={answer.developer} onChange={($event) => onChange($event, answer.pk)} />
                 <Content htmlFor={`answer-${answer.pk}`} pk={index + 1}>{answer.content}</Content>
               </Answer>
             ))}
           </Answers>
-        </Form>
+        </Wrapper>
       ))}
-
       <Buttons>
-        <Prev onClick={onDecrease}>이전</Prev>
-        <Next onClick={onIncrease}>다음</Next>
+        {params !== 1 && <Prev type="button" onClick={onDecrease}>이전</Prev>}
+        {params !== mbits.length ? <Next type="button" onClick={onIncrease}>다음</Next>
+        : <Next type="submit">검사 결과</Next>}
       </Buttons>
-    </Wrapper>
+    </Form>
   )
 }
 
-const Wrapper = styled.div`
+const Form = styled.form`
   max-width: 300px;
   min-width: 280px;
   margin: 0 auto;
   padding: 45px;
 `
 
-const Form = styled.div`
+const Wrapper = styled.div`
   display: none;
 
   &.current {
@@ -133,10 +133,11 @@ const Buttons = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 100px;
 `
 
 const Prev = styled.button`
-  width: 100px;
+  flex-basis: 100px;
   height: 40px;
   background-color: #FFFFFF;
   color: var(--primary);
@@ -149,10 +150,11 @@ const Prev = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
+  flex: 1;
 `
 
 const Next = styled.button`
-  width: 100px;
+  flex-basis: 100px;
   height: 40px;
   background-color: #FFFFFF;
   color: var(--primary);
@@ -165,6 +167,7 @@ const Next = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
+  flex: 1;
 `
 
 export default Question
