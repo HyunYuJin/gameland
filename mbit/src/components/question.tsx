@@ -9,7 +9,8 @@ function Question () {
   const [params, setParams] = useState(1)
   const form = useRef(null)
   const [mbits, setMbits] = useState<QuestionType[]>([])
-  const [selected, setSelected] = useState<boolean>(false)
+  const [selecteds, setSelecteds] = useState<number[]>([])
+  const [select, setSelect] = useState<boolean>(false)
   
   const getData = () => {
     const mbitList: QuestionType[] = []
@@ -30,25 +31,26 @@ function Question () {
     })
   }
 
-  const onChange = (event: ChangeEvent<HTMLInputElement>) => {
+  const onChange = (event: ChangeEvent<HTMLInputElement>, pk: number): void => {
     const { target } = event
 
     if (target) {
-      setSelected(true)
+      setSelecteds([...selecteds, pk])
+      setSelect(true)
     }
   }
 
   const onIncrease = () => {
-    if (selected) {
+    if (select) {
       setParams(params => params + 1)
-      setSelected(false)
+      setSelect(false)
     } else {
       return
     }
   }
 
   const onDecrease = () => {
-    setSelected(true)
+    setSelect(true)
     setParams(params => params - 1)
   }
   
@@ -64,7 +66,7 @@ function Question () {
           <Answers>
             {mbit.answers && mbit.answers.map((answer, index) => (
               <Answer key={answer.content}>
-                <input type="radio" id={`answer-${answer.pk}`} name={mbit.content} value={answer.content} onChange={onChange} />
+                <input type="radio" id={`answer-${answer.pk}`} name={mbit.content} value={answer.content} onChange={($event) => onChange($event, answer.pk)} />
                 <Content htmlFor={`answer-${answer.pk}`} pk={index + 1}>{answer.content}</Content>
               </Answer>
             ))}
