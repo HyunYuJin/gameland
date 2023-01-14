@@ -1,13 +1,15 @@
-import { useState, useEffect } from 'react'
+import { useState, useRef, useEffect, ChangeEvent } from 'react'
 import styled from 'styled-components'
 import { QuestionType, AnswerType } from '../types'
 import { classes } from '@gameland/shared'
 import data from '../datas/data.json'
 
 function Question () {
-  const [params, setParams] = useState(1)
   const { questions, answers } = data
+  const [params, setParams] = useState(1)
+  const form = useRef(null)
   const [mbits, setMbits] = useState<QuestionType[]>([])
+  const [selected, setSelected] = useState<boolean>(false)
   
   const getData = () => {
     const mbitList: QuestionType[] = []
@@ -25,15 +27,28 @@ function Question () {
       }))
 
       setMbits(mbitList)
-
     })
   }
 
+  const onChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const { target } = event
+
+    if (target) {
+      setSelected(true)
+    }
+  }
+
   const onIncrease = () => {
-    setParams(params => params + 1)
+    if (selected) {
+      setParams(params => params + 1)
+      setSelected(false)
+    } else {
+      return
+    }
   }
 
   const onDecrease = () => {
+    setSelected(true)
     setParams(params => params - 1)
   }
   
@@ -42,15 +57,15 @@ function Question () {
   }, [])
 
   return (
-    <Wrapper>
+    <Wrapper ref={form}>
       {mbits && mbits.map(mbit => (
         <Form key={mbit.pk} className={classes({current: mbit.pk === params})} data-index={mbit.pk}>
           <Pk>Q{mbit.pk}. {mbit.content}</Pk>
           <Answers>
-            {mbit.answers && mbit.answers.map(answer => (
+            {mbit.answers && mbit.answers.map((answer, index) => (
               <Answer key={answer.content}>
-                <input type="radio" />
-                <Content pk={answer.pk}>{answer.content}</Content>
+                <input type="radio" id={`answer-${answer.pk}`} name={mbit.content} value={answer.content} onChange={onChange} />
+                <Content htmlFor={`answer-${answer.pk}`} pk={index + 1}>{answer.content}</Content>
               </Answer>
             ))}
           </Answers>
@@ -98,7 +113,7 @@ const Answers = styled.ol`
 
 const Answer = styled.li``
 
-const Content = styled.span<{pk: number}>`
+const Content = styled.label<{pk: number}>`
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
