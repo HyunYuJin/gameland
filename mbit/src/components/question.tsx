@@ -1,10 +1,12 @@
 import { useState, useRef, useEffect, ChangeEvent } from 'react'
+import { useNavigate } from "react-router-dom";
 import styled from 'styled-components'
 import { QuestionType, AnswerType } from '../types'
 import { classes } from '@gameland/shared'
 import data from '../datas/data.json'
 
 function Question () {
+  const navigate = useNavigate()
   const { questions, answers } = data
   const [params, setParams] = useState(1)
   const form = useRef(null)
@@ -53,13 +55,35 @@ function Question () {
     setSelect(true)
     setParams(params => params - 1)
   }
+
+  const onSubmit = async (event: { preventDefault: () => void }) => {
+    event.preventDefault()
+
+    const formData = new FormData()
+    formData.append('Test', 'test')
+
+    await fetch('http://localhost:3000/submit', {
+      method: "POST",
+      headers: {
+        'Content-type': 'application/json'
+      },
+      body: formData
+    })
+    .then(response => {
+      response.json()
+      navigate('/result')
+    })
+    .catch((err) => {
+      console.error(err)
+    })
+  }
   
   useEffect(() => {
     getData()
   }, [])
 
   return (
-    <Form ref={form} onSubmit={(event) => event?.preventDefault()} action="" id="question-form" method="post">
+    <Form ref={form} onSubmit={onSubmit} action="" id="question-form" method="post">
       {mbits && mbits.map(mbit => (
         <Wrapper key={mbit.pk} className={classes({current: mbit.pk === params})} data-index={mbit.pk}>
           <Pk>Q{mbit.pk}. {mbit.content}</Pk>
@@ -75,7 +99,7 @@ function Question () {
       ))}
       <Buttons>
         {params !== 1 && <Prev type="button" onClick={onDecrease}>이전</Prev>}
-        {params !== mbits.length ? <Next type="button" onClick={onIncrease}>다음</Next>
+        {params <= mbits.length ? <Next type="button" onClick={onIncrease}>다음</Next>
         : <Next type="submit">검사 결과</Next>}
       </Buttons>
     </Form>
