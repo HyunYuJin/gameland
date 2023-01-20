@@ -41,7 +41,9 @@ function Questions () {
     }
   }
 
-  const onIncrease = () => {
+  const onIncrease = (event: { preventDefault: () => void }) => {
+    event.preventDefault()
+
     if (select) {
       setParams(params => params + 1)
       setSelect(false)
@@ -50,31 +52,32 @@ function Questions () {
     }
   }
 
-  const onDecrease = () => {
+  const onDecrease = (event: { preventDefault: () => void }) => {
+    event.preventDefault()
+    
     setSelect(true)
     setParams(params => params - 1)
   }
 
-  const onSubmit = async (event: { preventDefault: () => void }) => {
+  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault()
 
     const formData = new FormData()
     formData.append('Test', 'test')
 
-    await fetch('http://localhost:3000/submit', {
-      method: "POST",
-      headers: {
-        'Content-type': 'application/json'
-      },
-      body: formData
-    })
-    .then(response => {
-      response.json()
-      navigate('/result')
-    })
-    .catch((err) => {
-      console.error(err)
-    })
+    try {
+      const result = await fetch('http://localhost:3000/submit', {
+        method: "POST",
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: formData
+      })
+
+      console.log(result)
+    } catch (error) {
+      console.error('Error /result: ', error)
+    }
   }
   
   useEffect(() => {
@@ -102,12 +105,13 @@ function Questions () {
             </Answers>
           </Question>
         ))}
+
+        <Buttons>
+          {params !== 1 && <Prev type="button" onClick={onDecrease}>이전</Prev>}
+          {params !== mbits.length ? <Next type="button" onClick={onIncrease}>다음 {params}, {mbits.length}</Next>
+          : <Next type="submit">검사 결과</Next>}
+        </Buttons>
       </Form>
-      <Buttons>
-        {params !== 1 && <Prev type="button" onClick={onDecrease}>이전</Prev>}
-        {params <= mbits.length ? <Next type="button" onClick={onIncrease}>다음</Next>
-        : <Next type="submit">검사 결과</Next>}
-      </Buttons>
     </Wrapper>
   )
 }
