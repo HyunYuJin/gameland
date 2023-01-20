@@ -66,15 +66,15 @@ function Questions () {
     formData.append('Test', 'test')
 
     try {
-      const result = await fetch('http://localhost:3000/submit', {
+      await fetch('http://localhost:3000/submit', {
         method: "POST",
         headers: {
           'Content-type': 'application/json'
         },
         body: formData
       })
+      .then(() => navigate('/result'))
 
-      console.log(result)
     } catch (error) {
       console.error('Error /result: ', error)
     }
@@ -108,7 +108,7 @@ function Questions () {
 
         <Buttons>
           {params !== 1 && <Prev type="button" onClick={onDecrease}>이전</Prev>}
-          {params !== mbits.length ? <Next type="button" onClick={onIncrease}>다음 {params}, {mbits.length}</Next>
+          {params !== mbits.length ? <Next type="button" onClick={onIncrease}>다음</Next>
           : <Next type="submit">검사 결과</Next>}
         </Buttons>
       </Form>
