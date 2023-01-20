@@ -5,11 +5,10 @@ import { QuestionType, AnswerType } from '../types'
 import { classes } from '@gameland/shared'
 import data from '../datas/data.json'
 
-function Question () {
+function Questions () {
   const navigate = useNavigate()
   const { questions, answers } = data
   const [params, setParams] = useState(1)
-  const form = useRef(null)
   const [mbits, setMbits] = useState<QuestionType[]>([])
   const [selecteds, setSelecteds] = useState<number[]>([])
   const [select, setSelect] = useState<boolean>(false)
@@ -83,37 +82,76 @@ function Question () {
   }, [])
 
   return (
-    <Form ref={form} onSubmit={onSubmit} action="" id="question-form" method="post">
-      {mbits && mbits.map(mbit => (
-        <Wrapper key={mbit.pk} className={classes({current: mbit.pk === params})} data-index={mbit.pk}>
-          <Pk>Q{mbit.pk}. {mbit.content}</Pk>
-          <Answers>
-            {mbit.answers && mbit.answers.map((answer, index) => (
-              <Answer key={answer.content}>
-                <input type="radio" id={`answer-${answer.pk}`} name={`question-${mbit.content}`} value={answer.developer} onChange={($event) => onChange($event, answer.pk)} />
-                <Content htmlFor={`answer-${answer.pk}`} pk={index + 1}>{answer.content}</Content>
-              </Answer>
-            ))}
-          </Answers>
-        </Wrapper>
-      ))}
+    <Wrapper>
+      <Status>
+        <Current>{params} / 10</Current>
+        <Progress status={params}></Progress>
+      </Status>
+
+      <Form onSubmit={onSubmit} action="" id="question-form" method="post">
+        {mbits && mbits.map(mbit => (
+          <Question key={mbit.pk} className={classes({current: mbit.pk === params})} data-index={mbit.pk}>
+            <Pk>Q{mbit.pk}. {mbit.content}</Pk>
+            <Answers>
+              {mbit.answers && mbit.answers.map((answer, index) => (
+                <Answer key={answer.content}>
+                  <input type="radio" id={`answer-${answer.pk}`} name={`question-${mbit.content}`} value={answer.developer} onChange={($event) => onChange($event, answer.pk)} />
+                  <Content htmlFor={`answer-${answer.pk}`} pk={index + 1}>{answer.content}</Content>
+                </Answer>
+              ))}
+            </Answers>
+          </Question>
+        ))}
+      </Form>
       <Buttons>
         {params !== 1 && <Prev type="button" onClick={onDecrease}>이전</Prev>}
         {params <= mbits.length ? <Next type="button" onClick={onIncrease}>다음</Next>
         : <Next type="submit">검사 결과</Next>}
       </Buttons>
-    </Form>
+    </Wrapper>
   )
 }
 
-const Form = styled.form`
+const Wrapper = styled.div`
   max-width: 300px;
   min-width: 280px;
   margin: 0 auto;
-  padding: 45px;
+  padding: 0 45px;
 `
 
-const Wrapper = styled.div`
+const Status = styled.div`
+  margin-bottom: 40px;
+`
+
+const Current = styled.span`
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 26px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  color: var(--primary);
+`
+
+const Progress = styled.div<{status: number}>`
+  width: 100%;
+  height: 6px;
+  background-color: #FFF;
+
+  &::before {
+    content: '';
+    display: block;
+    width: calc(${props => props.status} * 10%);
+    height: 100%;
+    background-color: var(--primary);
+    transition: width .3s;
+  }
+`
+
+const Form = styled.form``
+
+const Question = styled.div`
   display: none;
 
   &.current {
@@ -194,4 +232,4 @@ const Next = styled.button`
   flex: 1;
 `
 
-export default Question
+export default Questions
