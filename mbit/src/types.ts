@@ -4,6 +4,10 @@ export interface QuestionType {
   answers: AnswerType[]
 }
 
+export interface SelectType {
+  [key: string]: number
+}
+
 export interface AnswerType {
   pk: number,
   content: string,

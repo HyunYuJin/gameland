@@ -1,7 +1,7 @@
-import { useState, useRef, useEffect, ChangeEvent } from 'react'
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect, ChangeEvent } from 'react'
+import { useNavigate } from 'react-router-dom'
 import styled from 'styled-components'
-import { QuestionType, AnswerType } from '../types'
+import { QuestionType, SelectType, AnswerType } from '../types'
 import { classes } from '@gameland/shared'
 import data from '../datas/data.json'
 
@@ -10,8 +10,8 @@ function Questions () {
   const { questions, answers } = data
   const [params, setParams] = useState(1)
   const [mbits, setMbits] = useState<QuestionType[]>([])
-  const [selecteds, setSelecteds] = useState<number[]>([])
-  const [select, setSelect] = useState<boolean>(false)
+  const [selectList, setSelectList] = useState<SelectType[]>([])
+  const [select, setSelect] = useState<SelectType | null>(null)
   
   const getData = () => {
     const mbitList: QuestionType[] = []
@@ -32,57 +32,55 @@ function Questions () {
     })
   }
 
-  const onChange = (event: ChangeEvent<HTMLInputElement>, pk: number): void => {
+  const onChange = (event: ChangeEvent<HTMLInputElement>, index: number): void => {
     const { target } = event
 
-    if (target) {
-      setSelecteds([...selecteds, pk])
-      setSelect(true)
-    }
+   setSelect({[target.name]: index + 1})
   }
-
-  const onIncrease = (event: { preventDefault: () => void }) => {
+  
+  const onIncrease = async (event: { preventDefault: () => void }) => {
     event.preventDefault()
 
-    if (select) {
+    if (select && Object.keys(select).length) {
+      setSelectList([...selectList, select])
       setParams(params => params + 1)
-      setSelect(false)
+      setSelect(null)
+
+      return
     } else {
+      alert('1개 이상 선택하세요!')
       return
     }
   }
 
   const onDecrease = (event: { preventDefault: () => void }) => {
     event.preventDefault()
-    
-    setSelect(true)
+
     setParams(params => params - 1)
   }
 
-  const onSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  const onSubmit = async (event: { preventDefault: () => void }) => {
     event.preventDefault()
+    
+    await fetch('http://localhost:3000/submit', {
+      method: 'post',
+      headers: {
+        "Content-Type": "application/json; charset=utf-8"
+      },
+      body: JSON.stringify([...selectList, select])
+    })
 
-    const formData = new FormData()
-    formData.append('Test', 'test')
-
-    try {
-      await fetch('http://localhost:3000/submit', {
-        method: "POST",
-        headers: {
-          'Content-type': 'application/json'
-        },
-        body: formData
-      })
-      .then(() => navigate('/result'))
-
-    } catch (error) {
-      console.error('Error /result: ', error)
-    }
+    navigate('/result')
   }
   
   useEffect(() => {
     getData()
   }, [])
+
+  useEffect(() => {
+    setSelect(select)
+    setSelectList(selectList)
+  }, [select, selectList])
 
   return (
     <Wrapper>
@@ -98,7 +96,7 @@ function Questions () {
             <Answers>
               {mbit.answers && mbit.answers.map((answer, index) => (
                 <Answer key={answer.content}>
-                  <input type="radio" id={`answer-${answer.pk}`} name={`question-${mbit.content}`} value={answer.developer} onChange={($event) => onChange($event, answer.pk)} />
+                  <input type="radio" id={`answer-${answer.pk}`} name={`question-${mbit.pk}`} value={answer.developer} onChange={($event) => onChange($event, index)} />
                   <Content htmlFor={`answer-${answer.pk}`} pk={index + 1}>{answer.content}</Content>
                 </Answer>
               ))}
