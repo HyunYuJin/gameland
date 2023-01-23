@@ -14,3 +14,11 @@ export interface AnswerType {
   developer: number,
   question: number
 }
+
+export interface DevloperType {
+  pk: number,
+  name: string,
+  title: string,
+  img: string,
+  features: string[]
+}
