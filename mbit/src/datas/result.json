@@ -25,7 +25,7 @@
   },
   {
     "pk": 3,
-    "name": "데이터분석과 인공지능",
+    "name": "데이터분석가",
     "title": "Data에서 인사이트를 발견할 수 있는 당신은!",
     "img": "/src/assets/images/results/data.png",
     "features": [
@@ -48,7 +48,7 @@
   },
   {
     "pk": 5,
-    "name": "게임 개발",
+    "name": "게임 개발자",
     "title": "Game을 좋아하고, 상상하길 즐겨하는 당신은!",
     "img": "/src/assets/images/results/game.png",
     "features": [
