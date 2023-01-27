@@ -30,9 +30,9 @@ $ pnpm install
 ## 게임 소개
 
 ### MBIT
-진입 페이지            |  질문지
+시작 페이지            |  질문 페이지            | 결과 페이지
 :-------------------------:|:-------------------------:
-![127 0 0 1_5173_](https://user-images.githubusercontent.com/38209966/214874440-b8389047-56ef-45d8-9574-ccc7238b6e23.png) | ![127 0 0 1_5173_ (1)](https://user-images.githubusercontent.com/38209966/214874419-284c93cc-e23e-483b-8da6-c42327766bcc.png)
+![127 0 0 1_5173_(Samsung Galaxy S20 Ultra) (1)](https://user-images.githubusercontent.com/38209966/215125521-16a8044b-71a1-4926-9783-0805753073b2.png) | ![127 0 0 1_5173_(Samsung Galaxy S20 Ultra) (2)](https://user-images.githubusercontent.com/38209966/215125530-e6605d44-56f5-4937-aa1c-18b21209a05a.png) | ![127 0 0 1_5173_(Samsung Galaxy S20 Ultra)](https://user-images.githubusercontent.com/38209966/215125532-475ef49b-acd4-48d0-8c07-2b3004c2a0f5.png)
 
 당신의 개발자 유형은 뭘까요?
 - 백엔드 개발
