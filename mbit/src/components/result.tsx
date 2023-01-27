@@ -168,7 +168,7 @@ const Features = styled.ul`
 const Feature = styled.li<{pk: number}>`
   padding-bottom: 8px;
   font-size: 14px;
-  line-height: 1.2;
+  line-height: 1.8;
   &::before {
     content: '${props => props.pk}. ';
   }
