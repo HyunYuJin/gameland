@@ -98,7 +98,7 @@ function Questions () {
               {mbit.answers && mbit.answers.map((answer, index) => (
                 <Answer key={answer.content}>
                   <RadioButton type="radio" id={`answer-${answer.pk}`} name={`question-${mbit.pk}`} value={answer.developer} onChange={($event) => onChange($event, index)} />
-                  <Content htmlFor={`answer-${answer.pk}`} pk={index + 1}>{answer.content}</Content>
+                  <Content htmlFor={`answer-${answer.pk}`}>{answer.content}</Content>
                 </Answer>
               ))}
             </Answers>
@@ -232,7 +232,7 @@ const Answer = styled.li`
   }
 `
 
-const Content = styled.label<{pk: number}>`
+const Content = styled.label`
   font-style: normal;
   font-weight: 400;
   font-size: 14px;
@@ -240,10 +240,6 @@ const Content = styled.label<{pk: number}>`
   width: 100%;
   cursor: pointer;
   padding: 6px 10px 0 0;
-
-  &::before {
-    /* content: '${props => props.pk}. '; */
-  }
 `
 
 const RadioButton = styled.input`
