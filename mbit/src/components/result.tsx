@@ -14,7 +14,7 @@ function Result () {
 
   const getData = async () => {
     return new Promise(async (resolve, reject) => {
-      const res = await fetch('http://localhost:3000/result')
+      const res = await fetch('http://3.90.81.98:3000/result')
 
       resolve(res.json())
     })

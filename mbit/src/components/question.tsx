@@ -62,7 +62,7 @@ function Questions () {
   const onSubmit = async (event: { preventDefault: () => void }) => {
     event.preventDefault()
     
-    await fetch('http://localhost:3000/submit', {
+    await fetch('http://3.90.81.98:3000/submit', {
       method: 'post',
       headers: {
         "Content-Type": "application/json; charset=utf-8"
